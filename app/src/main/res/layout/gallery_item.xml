@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="galleryItem"
+            type="com.example.gallary.model.Photo" />
     </data>
 
     <ImageView
         android:id="@+id/image_gallery"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:padding="4dp"
+        android:adjustViewBounds="true"
+        android:background="#E5FFFFFF"
         android:contentDescription="@string/image_from_gallery"
-        android:scaleType="centerCrop" />
+        app:imageFromUrl="@{galleryItem.urls.thumb}"
+        tool:src="@drawable/exampl" />
 </layout>
 
 
