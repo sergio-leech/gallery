@@ -4,4 +4,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_from_gallery">image from gallery</string>
+    <string name="enter_keyword">Enter keyword</string>
+    <string name="search_text_btn">SEARCH</string>
 </resources>
