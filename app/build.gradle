@@ -72,5 +72,10 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    // Room components
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
+    androidTestImplementation "androidx.room:room-testing:2.2.5"
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.gallary.model
 
+import androidx.lifecycle.LiveData
 
 
 data class SearchPhoto(

@@ -1,11 +1,8 @@
-package com.example.gallary.model
+package com.example.gallary.database
 
-import android.os.Parcelable
-import com.example.gallary.database.UrlsRoom
-import kotlinx.android.parcel.Parcelize
+import com.example.gallary.model.Urls
 
-@Parcelize
-data class Urls(
+data class UrlsRoom (
     val thumb: String?,
     val small: String,
     val medium: String?,
@@ -13,10 +10,10 @@ data class Urls(
     val large: String?,
     val full: String?,
     val raw: String?
-) : Parcelable
+)
 
-fun UrlsRoom.toUrls() = Urls(
-    thumb = thumb,
+fun Urls.toUrlsRoom()=UrlsRoom(
+    thumb= thumb,
     small = small,
     medium = medium,
     regular = regular,
