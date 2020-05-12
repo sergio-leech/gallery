@@ -12,17 +12,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class PhotoRepository (val database:PhotoDatabase) {
-    val listPhotos = Transformations.map(database.photoDatabaseDao.getAll()){
+  /*  val listPhotos = Transformations.map(database.photoDatabaseDao.getAll()){
         it.asDomainModel()
+    }*/
+
+  // val listPhotos = database.photoDatabaseDao.getAll().asDomainModel()
+
+    suspend fun getAllPhotos():List<Photo>{
+           return database.photoDatabaseDao.getAll().asDomainModel()
     }
 
 
-
-
     suspend fun refreshPhotos(){
-        withContext(Dispatchers.IO){
             val photos = UnsplashApi.retrofitService.getPhotosAsync(1,100).await()
             database.photoDatabaseDao.insertPhoto(photos.asDatabaseModel())
-        }
+
     }
 }

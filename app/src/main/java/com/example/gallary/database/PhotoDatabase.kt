@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [PhotoRoom::class], version = 5)
+@Database(entities = [PhotoRoom::class], version = 6,exportSchema = false)
 abstract class PhotoDatabase : RoomDatabase() {
     abstract val photoDatabaseDao: PhotoDatabaseDao
 
@@ -21,7 +21,7 @@ abstract class PhotoDatabase : RoomDatabase() {
                         context.applicationContext,
                         PhotoDatabase::class.java,
                         "photo_database"
-                    ).build()
+                    ).fallbackToDestructiveMigration().build()
                     INSTANCE = instance
                 }
                 return instance
