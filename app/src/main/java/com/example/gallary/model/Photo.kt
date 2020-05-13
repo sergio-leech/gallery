@@ -12,7 +12,14 @@ data class Photo(
     val urls: Urls
 ) : Parcelable
 
-fun List<PhotoRoom>.asDomainModel():List<Photo>{
+fun PhotoRoom.toPhoto() = Photo(
+    id = id,
+    created_at = created_at,
+    description = description,
+    urls = urls.toUrls()
+)
+
+fun List<PhotoRoom>.asDomainModel(): List<Photo> {
     return map {
         Photo(
             id = it.id,

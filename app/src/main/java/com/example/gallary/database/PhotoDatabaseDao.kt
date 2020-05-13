@@ -13,9 +13,12 @@ interface PhotoDatabaseDao {
     suspend fun insertPhoto(photos: List<PhotoRoom>)
 
     @Query("SELECT*FROM photos WHERE id =:id")
-    fun getPhoto(id: String): LiveData<PhotoRoom>
+    suspend fun getPhoto(id: String): PhotoRoom
 
     @Query("SELECT * FROM photos")
     suspend fun getAll(): List<PhotoRoom>
+
+    @Query("DELETE FROM photos")
+    suspend fun clear()
 
 }

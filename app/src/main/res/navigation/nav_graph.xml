@@ -9,5 +9,17 @@
         android:id="@+id/gallaryFragment"
         android:name="com.example.gallary.ui.GalleryFragment"
         android:label="fragment_gallary"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_gallaryFragment_to_fullPhotoFragment"
+            app:destination="@id/fullPhotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullPhotoFragment"
+        android:name="com.example.gallary.ui.FullPhotoFragment"
+        android:label="FullPhotoFragment" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>

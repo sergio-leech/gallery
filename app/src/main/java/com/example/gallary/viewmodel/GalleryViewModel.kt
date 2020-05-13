@@ -38,9 +38,10 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
     fun getSearchList(query: String) {
         viewModelScope.launch {
             try {
-                val res = UnsplashApi.retrofitService.searchPhotosAsync(query, 1, 100).await()
+              //  val res = UnsplashApi.retrofitService.searchPhotosAsync(query, 1, 100).await()
+               // repository.getSearchList(query)
                 imageList.clear()
-                imageList.addAll(res.results)
+                imageList.addAll(repository.getSearchList(query))
                 _galleryList.value = imageList
             } catch (e: IOException) {
                 Timber.d("ERROR $e")

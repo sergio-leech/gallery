@@ -33,7 +33,7 @@ class GalleryFragment : Fragment() {
 
         binding.searchBtn.setOnClickListener {
             if (edit.text.toString() != "") {
-                Timber.d("EDIT TEXt= ${edit.text.toString()}")
+                Timber.d("EDIT TEXt= ${edit.text}")
                 viewModelGallery.getSearchList(edit.text.toString())
                 hideKeyboard()
             }
