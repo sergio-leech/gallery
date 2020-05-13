@@ -22,5 +22,5 @@ interface ApiInterface {
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("per_page") pageSize: Int
-    ):Deferred<SearchPhoto>
+    ): Deferred<SearchPhoto>
 }

@@ -4,7 +4,6 @@
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
@@ -15,7 +14,6 @@
     </data>
 
     <ImageView
-        android:onClick="@{clickListener}"
         android:id="@+id/image_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +22,7 @@
         android:adjustViewBounds="true"
         android:background="#E5FFFFFF"
         android:contentDescription="@string/image_from_gallery"
+        android:onClick="@{clickListener}"
         android:padding="4dp"
         app:imageFromUrl="@{galleryItem.urls.thumb}"
         tool:src="@drawable/exampl" />

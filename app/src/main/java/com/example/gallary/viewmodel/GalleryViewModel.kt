@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.gallary.database.PhotoDatabase
 import com.example.gallary.model.Photo
-import com.example.gallary.network.UnsplashApi
 import com.example.gallary.repository.PhotoRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -26,9 +25,9 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
     private fun getList() {
         viewModelScope.launch {
             try {
+                repository.refreshPhotos()
                 imageList.addAll(repository.getAllPhotos())
                 _galleryList.value = imageList
-                repository.refreshPhotos()
             } catch (e: IOException) {
                 Timber.d("ERROR $e")
             }
@@ -38,8 +37,6 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
     fun getSearchList(query: String) {
         viewModelScope.launch {
             try {
-              //  val res = UnsplashApi.retrofitService.searchPhotosAsync(query, 1, 100).await()
-               // repository.getSearchList(query)
                 imageList.clear()
                 imageList.addAll(repository.getSearchList(query))
                 _galleryList.value = imageList

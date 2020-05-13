@@ -30,5 +30,4 @@ class PhotoRepository(val database: PhotoDatabase) {
         }
         return database.photoDatabaseDao.getAll().asDomainModel()
     }
-
 }

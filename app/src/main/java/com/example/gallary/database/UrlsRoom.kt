@@ -2,7 +2,7 @@ package com.example.gallary.database
 
 import com.example.gallary.model.Urls
 
-data class UrlsRoom (
+data class UrlsRoom(
     val thumb: String?,
     val small: String,
     val medium: String?,
@@ -12,8 +12,8 @@ data class UrlsRoom (
     val raw: String?
 )
 
-fun Urls.toUrlsRoom()=UrlsRoom(
-    thumb= thumb,
+fun Urls.toUrlsRoom() = UrlsRoom(
+    thumb = thumb,
     small = small,
     medium = medium,
     regular = regular,
