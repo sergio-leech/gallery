@@ -1,19 +1,20 @@
 package com.example.gallary.viewmodel
 
-import android.app.Application
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.example.gallary.database.PhotoDatabase
 import com.example.gallary.model.Photo
 import com.example.gallary.repository.PhotoRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 
-class GalleryViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository =
-        PhotoRepository(PhotoDatabase.getInstance(application.applicationContext))
-    private val imageList = ArrayList<Photo>()
+class GalleryViewModel @ViewModelInject constructor(
+    private val repository: PhotoRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
+    private val imageList = ArrayList<Photo>()
     private val _galleryList = MutableLiveData<List<Photo>>()
     val galleryList: LiveData<List<Photo>>
         get() = _galleryList

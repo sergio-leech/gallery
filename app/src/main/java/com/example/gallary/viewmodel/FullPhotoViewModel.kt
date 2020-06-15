@@ -1,24 +1,21 @@
 package com.example.gallary.viewmodel
 
-import android.app.Application
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.example.gallary.database.PhotoDatabase
 import com.example.gallary.model.Photo
 import com.example.gallary.repository.PhotoRepository
 import kotlinx.coroutines.launch
 
-class FullPhotoViewModel(application: Application, _id: String) : AndroidViewModel(application) {
-    private val repository = PhotoRepository(PhotoDatabase.getInstance(application))
-    private val id = _id
+class FullPhotoViewModel @ViewModelInject constructor(
+    private val repository: PhotoRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
     private val _photo = MutableLiveData<Photo>()
     val photo: LiveData<Photo>
         get() = _photo
 
-    init {
-        getPhoto()
-    }
-
-    private fun getPhoto() {
+    fun getPhoto(id: String) {
         viewModelScope.launch {
             _photo.value = repository.getPhoto(id)
         }

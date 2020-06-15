@@ -1,30 +1,28 @@
 package com.example.gallary.network
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
+import com.example.gallary.model.Photo
+import com.example.gallary.model.SearchPhoto
+import kotlinx.coroutines.Deferred
+import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.Query
 
 const val ACCESS_KEY = "Authorization: Client-ID hLlGX0VjDVsig50VHGu7b9Is2hWUhesL2lTOWser_ts"
-private const val BASE_URL = "https://api.unsplash.com/"
 
-private fun createOkHttpClient(): OkHttpClient {
-    val httpLoggingInterceptor =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    val httpClient = OkHttpClient.Builder()
-        .addInterceptor(httpLoggingInterceptor)
-    return httpClient.build()
-}
+interface UnsplashService {
 
-private val retrofit = Retrofit.Builder()
-    .baseUrl(BASE_URL)
-    .addConverterFactory(GsonConverterFactory.create())
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-    .client(createOkHttpClient())
-    .build()
+    @Headers(ACCESS_KEY)
+    @GET("photos")
+    fun getPhotosAsync(
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int
+    ): Deferred<List<Photo>>
 
-object UnsplashApi {
-    val retrofitService: ApiInterface by lazy { retrofit.create(ApiInterface::class.java) }
+    @Headers(ACCESS_KEY)
+    @GET("search/photos")
+    fun searchPhotosAsync(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int
+    ): Deferred<SearchPhoto>
 }

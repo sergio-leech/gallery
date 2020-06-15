@@ -7,13 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.example.gallary.databinding.FragmentGalleryBinding
 import com.example.gallary.viewmodel.GalleryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class GalleryFragment : Fragment() {
-    private lateinit var viewModelGallery: GalleryViewModel
+    private val viewModelGallery by viewModels<GalleryViewModel>()
     private lateinit var binding: FragmentGalleryBinding
 
     override fun onCreateView(
@@ -23,8 +25,6 @@ class GalleryFragment : Fragment() {
 
         binding = FragmentGalleryBinding.inflate(inflater)
         binding.lifecycleOwner = this
-
-        viewModelGallery = ViewModelProvider(this).get(GalleryViewModel::class.java)
         binding.galleryViewModel = viewModelGallery
 
         val edit = binding.searchText

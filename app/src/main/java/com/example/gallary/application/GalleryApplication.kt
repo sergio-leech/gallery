@@ -1,18 +1,21 @@
 package com.example.gallary.application
 
 import android.app.Application
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.example.gallary.work.RefreshDataWorker
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.*
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class GalleryApplication : Application() {
+@HiltAndroidApp
+class GalleryApplication : Application(), Configuration.Provider {
     private val applicationScope = CoroutineScope(Dispatchers.Default)
+
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
@@ -22,17 +25,10 @@ class GalleryApplication : Application() {
     private fun init() {
         applicationScope.launch {
             Timber.plant(Timber.DebugTree())
-            setupRecurringWork()
         }
     }
 
-    private fun setupRecurringWork() {
-        val repeatingRequest =
-            PeriodicWorkRequestBuilder<RefreshDataWorker>(2, TimeUnit.DAYS).build()
-        WorkManager.getInstance().enqueueUniquePeriodicWork(
-            RefreshDataWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
-            repeatingRequest
-        )
-    }
+    override fun getWorkManagerConfiguration() = Configuration.Builder()
+        .setWorkerFactory(workerFactory)
+        .build()
 }

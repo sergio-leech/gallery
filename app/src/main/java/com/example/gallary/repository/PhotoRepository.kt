@@ -1,33 +1,37 @@
 package com.example.gallary.repository
 
-import com.example.gallary.database.PhotoDatabase
+import com.example.gallary.database.PhotoDatabaseDao
 import com.example.gallary.database.asDatabaseModel
 import com.example.gallary.model.Photo
 import com.example.gallary.model.asDomainModel
 import com.example.gallary.model.toPhoto
-import com.example.gallary.network.UnsplashApi
+import com.example.gallary.network.UnsplashService
+import javax.inject.Inject
 
-class PhotoRepository(val database: PhotoDatabase) {
+class PhotoRepository @Inject constructor(
+    private val databaseDao: PhotoDatabaseDao,
+    private val unsplashService: UnsplashService
+) {
     suspend fun getPhoto(id: String): Photo {
-        return database.photoDatabaseDao.getPhoto(id).toPhoto()
+        return databaseDao.getPhoto(id).toPhoto()
     }
 
     suspend fun getAllPhotos(): List<Photo> {
-        return database.photoDatabaseDao.getAll().asDomainModel()
+        return databaseDao.getAll().asDomainModel()
     }
 
     suspend fun refreshPhotos() {
-        database.photoDatabaseDao.clear()
-        val photos = UnsplashApi.retrofitService.getPhotosAsync(1, 100).await()
-        database.photoDatabaseDao.insertPhoto(photos.asDatabaseModel())
+        databaseDao.clear()
+        val photos = unsplashService.getPhotosAsync(1, 100).await()
+        return databaseDao.insertPhoto(photos.asDatabaseModel())
     }
 
     suspend fun getSearchList(query: String): List<Photo> {
-        database.photoDatabaseDao.clear()
-        val res = UnsplashApi.retrofitService.searchPhotosAsync(query, 1, 100).await()
+        databaseDao.clear()
+        val res = unsplashService.searchPhotosAsync(query, 1, 100).await()
         if (res.results.isNotEmpty()) {
-            database.photoDatabaseDao.insertPhoto(res.results.asDatabaseModel())
+            databaseDao.insertPhoto(res.results.asDatabaseModel())
         }
-        return database.photoDatabaseDao.getAll().asDomainModel()
+        return databaseDao.getAll().asDomainModel()
     }
 }
